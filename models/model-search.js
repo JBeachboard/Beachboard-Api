@@ -38,7 +38,7 @@ export async function getSearchResults(searchValue) {
 
     catch (error) {
         //log the issue and error
-        console.log(`model-search.js | catch from getSearchResults : ${error}`);
+        logger.error(`model-search.js | catch from getSearchResults : ${error}`);
 
         throw (`${error}`);
     }
@@ -66,16 +66,16 @@ async function queryAndAddMeta(resultsArray) {
         //define the return object
         let returnArray = [];
         
-        //using a promise mapp with the added bonus of concurrency.
+        //using a promise map with the added bonus of concurrency.
         await Promise.map(resultsArray, async searchItem => {
             //go get the meta results
             let metaResult = await queryMeta(searchItem.id);
 
-            //go pluc the requested parameter
+            //go pluck the requested parameter
             let param = await fetchMetaParam(metaResult, 'originalFilename');
 
             //normally I would add the key to the object when I get the parameter but
-            //then I couldnt use object spread! 
+            //then I couldn't use object spread! 
 
             //Also using sortKeys to realphabatize the object 
             let combinedObj = sortKeys({ ...searchItem, ...param });
@@ -115,7 +115,7 @@ async function fetchMetaParam(itemArray, param) {
     }
     catch (error) {
         //I dont feel like a messup here should effect the end result so pass back a dummy object
-        console.debug(`model-search.js | catch from fetchMetaParam : ${error}`);
+        logger.debug(`model-search.js | catch from fetchMetaParam : ${error}`);
 
         return ({ [param]: null });
     }

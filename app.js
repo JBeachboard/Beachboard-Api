@@ -27,6 +27,6 @@ app.get('/:slug?', asyncMiddleware(async (req, res) => {
 }));
 
 //define the listener
-app.listen(config.port, () => console.log(`Starting up and all ears on port ${config.port}`))
+app.listen(config.port, () => logger.info(`Starting up and all ears on port ${config.port}`))
 
 logger.debug(`Application started : ${(new Date()).toLocaleTimeString()}`);
